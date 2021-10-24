@@ -1,9 +1,10 @@
 import { Link, useHistory } from "react-router-dom";
 import { useState, useContext } from "react";
-import { Input, SignForm } from "../_shared/Forms";
+import { Input, InputErrorMsg, SignForm } from "../_shared/Forms";
 import Logo from "../_shared/Logo";
 import API from "../../API/requests";
 import UserContext from "../../contexts/userContext";
+import WarningIcon from "../_shared/WarningIcon";
 
 export default function SignIn() {
 	const history = useHistory();
@@ -14,6 +15,7 @@ export default function SignIn() {
 	});
 
 	const { setLoggedUser } = useContext(UserContext);
+	const [loginError, setLoginError] = useState(false);
 
 	function submitForm(event) {
 		event.preventDefault();
@@ -22,15 +24,16 @@ export default function SignIn() {
 		API.signIn({ email, password })
 			.then((resp) => {
 				console.log(resp.data);
-				const { name, token } = resp.data;
+				const { user, token } = resp.data;
 				setLoggedUser({
 					token,
-					name,
+					user,
 				});
 				history.push("/transactions");
 			})
 			.catch((err) => {
 				console.log(`${err.response.status} - ${err.response.statusText}`);
+				setLoginError(true);
 				return;
 			});
 	}
@@ -44,12 +47,7 @@ export default function SignIn() {
 				required
 				onChange={(event) => {
 					setInput({ ...input, email: event.target.value });
-					// setInputError({
-					// 	...inputError,
-					// 	email: !event.target.value.match(emailRegex)?.length,
-					// });
 				}}
-				// inputError={!!inputError.email}
 			/>
 			<Input
 				type="password"
@@ -57,14 +55,14 @@ export default function SignIn() {
 				required
 				onChange={(event) => {
 					setInput({ ...input, password: event.target.value });
-					// setInputError({
-					// 	...inputError,
-					// 	passwordMatch: event.target.value !== input.passwordConfirmation,
-					// 	password: event.target.value.length < 6,
-					// });
 				}}
-				// inputError={!!inputError.password}
 			/>
+			{loginError ? (
+				<InputErrorMsg>
+					<WarningIcon />
+					<p>Email e/ou senha inválidos</p>
+				</InputErrorMsg>
+			) : null}
 			<button type="submit">Entrar</button>
 			<Link to="/sign-up">Primeira vez? Cadastre-se!</Link>
 		</SignForm>

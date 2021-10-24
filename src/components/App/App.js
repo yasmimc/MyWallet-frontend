@@ -11,7 +11,10 @@ import UserContext from "../../contexts/userContext";
 function App() {
 	const [loggedUser, setLoggedUser] = useState({
 		token: "",
-		userName: "",
+		user: {
+			name: "",
+			id: null,
+		},
 	});
 
 	return (

@@ -1,8 +1,8 @@
 import { Link, useHistory } from "react-router-dom";
 import { SignForm, Input, InputErrorMsg } from "../_shared/Forms";
 import Logo from "../_shared/Logo";
+import WarningIcon from "../_shared/WarningIcon";
 import { useState } from "react";
-import { RiErrorWarningFill as WarningIcon } from "react-icons/ri";
 import API from "../../API/requests";
 
 export default function SignUp() {
