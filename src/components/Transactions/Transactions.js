@@ -7,12 +7,16 @@ import {
 	RiAddCircleLine,
 	RiIndeterminateCircleLine,
 } from "react-icons/ri";
+import { useContext } from "react";
+import UserContext from "../../contexts/userContext";
 
 export default function Transactions() {
+	const { loggedUser } = useContext(UserContext);
+
 	return (
 		<PageContainer>
 			<Header>
-				<PageTitle>Olá, Fulano</PageTitle>
+				<PageTitle>Olá, {loggedUser.name}</PageTitle>
 				<LogoutButton />
 			</Header>
 			<Container>

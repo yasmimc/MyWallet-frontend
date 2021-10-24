@@ -7,21 +7,6 @@ import API from "../../API/requests";
 
 export default function SignUp() {
 	const history = useHistory();
-	function submitForm(event) {
-		event.preventDefault();
-		const { name, email, password } = input;
-		const inputErrors = Object.values(inputError).some((key) => key === true);
-		if (!inputErrors) {
-			API.signUp({ name, email, password })
-				.then((resp) => {
-					history.push("/");
-				})
-				.catch((err) => {
-					console.log(`${err.response.status} - ${err.response.statusText}`);
-					return;
-				});
-		}
-	}
 
 	const [input, setInput] = useState({
 		name: "",
@@ -37,6 +22,22 @@ export default function SignUp() {
 		passwordConfirmation: null,
 		passwordMatch: null,
 	});
+
+	function submitForm(event) {
+		event.preventDefault();
+		const { name, email, password } = input;
+		const inputErrors = Object.values(inputError).some((key) => key === true);
+		if (!inputErrors) {
+			API.signUp({ name, email, password })
+				.then((resp) => {
+					history.push("/");
+				})
+				.catch((err) => {
+					console.log(`${err.response.status} - ${err.response.statusText}`);
+					return;
+				});
+		}
+	}
 
 	const emailRegex =
 		/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
