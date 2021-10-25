@@ -47,49 +47,56 @@ export default function Transactions() {
 			});
 	}, [loggedUser]);
 
+	function logout() {
+		localStorage.removeItem("myWalletUser");
+		history.push("/");
+	}
+
 	return (
 		<PageContainer>
 			<Header>
 				<PageTitle>Olá, {loggedUser.user?.name}</PageTitle>
-				<LogoutButton />
+				<LogoutButton onClick={logout} />
 			</Header>
 			<Container>
-				<TransactionsHistory>
-					<TransactionsContainer>
-						{transactions.length > 0 ? (
-							<>
-								{transactions.map((transaction) => (
-									<Transaction>
-										<div>
-											<p className="date">
-												{`${new Date(transaction.date).getDate()}/${new Date(
-													transaction.date
-												).getMonth()}`}
-												`
+				{transactions.length > 0 ? (
+					<TransactionsHistory>
+						{
+							<TransactionsContainer>
+								<div>
+									{transactions.map((transaction) => (
+										<Transaction>
+											<div>
+												<p className="date">
+													{`${new Date(transaction.date).getDate()}/${new Date(
+														transaction.date
+													).getMonth()}`}
+												</p>
+												<p className="description">{transaction.description}</p>
+											</div>
+											<p className={`${transaction.type} value`}>
+												{Math.abs(transaction.value / 100)
+													.toFixed(2)
+													.replace(".", ",")}
 											</p>
-											<p className="description">{transaction.description}</p>
-										</div>
-										<p className={`${transaction.type} value`}>
-											{Math.abs(transaction.value / 100)
-												.toFixed(2)
-												.replace(".", ",")}
-										</p>
-									</Transaction>
-								))}
+										</Transaction>
+									))}
+								</div>
+
 								<Transaction>
 									<Total>SALDO </Total>
 									<p className={total < 0 ? "outgo" : "income"}>
 										{Math.abs(total).toFixed(2).replace(".", ",")}
 									</p>
 								</Transaction>
-							</>
-						) : (
-							<EmptyHistory>
-								<p>Não há registros de entrada ou saída</p>
-							</EmptyHistory>
-						)}
-					</TransactionsContainer>
-				</TransactionsHistory>
+							</TransactionsContainer>
+						}
+					</TransactionsHistory>
+				) : (
+					<EmptyHistory>
+						<p>Não há registros de entrada ou saída</p>
+					</EmptyHistory>
+				)}
 				<TransactionActions>
 					<Link to="/income">
 						<button>
@@ -141,6 +148,7 @@ const TransactionsHistory = styled.div`
 const TransactionsContainer = styled.div`
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
 	height: 100%;
 	position: relative;
 `;
