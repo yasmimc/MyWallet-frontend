@@ -17,18 +17,22 @@ export default function SignIn() {
 	const { setLoggedUser } = useContext(UserContext);
 	const [loginError, setLoginError] = useState(false);
 
+	function setLocalStorage(value) {
+		localStorage.setItem("myWalletUser", JSON.stringify(value));
+	}
+
 	function submitForm(event) {
 		event.preventDefault();
 		const { email, password } = input;
 
 		API.signIn({ email, password })
 			.then((resp) => {
-				// console.log(resp.data);
 				const { user, token } = resp.data;
 				setLoggedUser({
 					token,
 					user,
 				});
+				setLocalStorage({ token, user });
 				history.push("/transactions");
 			})
 			.catch((err) => {
@@ -37,6 +41,7 @@ export default function SignIn() {
 					setLoginError(true);
 					return;
 				}
+				console.log(err.message);
 			});
 	}
 

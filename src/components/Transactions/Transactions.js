@@ -10,17 +10,32 @@ import {
 import { useContext, useState, useEffect } from "react";
 import UserContext from "../../contexts/userContext";
 import API from "../../API/requests";
+import { useHistory } from "react-router";
 
 export default function Transactions() {
-	const { loggedUser } = useContext(UserContext);
+	const history = useHistory();
+	const { loggedUser, setLoggedUser } = useContext(UserContext);
 
 	const [transactions, setTransactions] = useState([]);
 	const [total, setTotal] = useState(0);
 
+	function getUserFromLocalStorage() {
+		return JSON.parse(localStorage.getItem("myWalletUser"));
+	}
+
+	useEffect(() => {
+		const userStoragedData = getUserFromLocalStorage();
+		console.log(userStoragedData);
+		if (userStoragedData) {
+			setLoggedUser(userStoragedData);
+		} else {
+			history.push("/");
+		}
+	}, []);
+
 	useEffect(() => {
 		API.getTransictions(loggedUser.token)
 			.then((resp) => {
-				console.log(resp.data);
 				setTransactions([...resp.data]);
 				setTotal(
 					[...resp.data].reduce((acc, curr) => acc + curr.value, 0) / 100
@@ -29,7 +44,7 @@ export default function Transactions() {
 			.catch((error) => {
 				console.log(error.response);
 			});
-	}, []);
+	}, [loggedUser]);
 
 	return (
 		<PageContainer>
