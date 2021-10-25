@@ -25,7 +25,6 @@ export default function Income() {
 
 	useEffect(() => {
 		const userStoragedData = getUserFromLocalStorage();
-		console.log({ userStoragedData });
 		if (userStoragedData?.token) {
 			setLoggedUser(userStoragedData);
 		} else {

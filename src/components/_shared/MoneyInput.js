@@ -2,7 +2,6 @@ import CurrencyInput from "react-currency-masked-input";
 import styled from "styled-components";
 
 export default function MoneyInput({ ...props }) {
-	// console.log(CurrencyInput());
 	return (
 		<MoneyInputContainer>
 			{props.amountMoney?.value !== "" ? <p>R$</p> : null}

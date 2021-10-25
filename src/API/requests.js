@@ -32,19 +32,16 @@ function signIn({ name, email, password }) {
 }
 
 function getTransictions(token) {
-	console.log({ token, msg: "fez request" });
 	const config = createBearerAuthorization(token);
 	return axiosBase.get("/transactions", config);
 }
 
 function addIncome(income, { token }) {
-	console.log({ income });
 	const config = createBearerAuthorization(token);
 	return axiosBase.post("/transactions", income, config);
 }
 
 function addOutgo(outgo, { token }) {
-	console.log({ outgo });
 	const config = createBearerAuthorization(token);
 	return axiosBase.post("/transactions", outgo, config);
 }
