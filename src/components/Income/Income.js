@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import UserContext from "../../contexts/userContext";
 import { Form, Input } from "../_shared/Forms";
@@ -10,7 +10,7 @@ import API from "../../API/requests";
 export default function Income() {
 	const history = useHistory();
 
-	const { loggedUser } = useContext(UserContext);
+	const { loggedUser, setLoggedUser } = useContext(UserContext);
 	const [income, setIncome] = useState({
 		userId: loggedUser.user?.id,
 		type: 1,
@@ -18,9 +18,23 @@ export default function Income() {
 		description: "",
 	});
 
+	function getUserFromLocalStorage() {
+		const storagedUser = localStorage.getItem("myWalletUser");
+		if (storagedUser) return JSON.parse(storagedUser);
+	}
+
+	useEffect(() => {
+		const userStoragedData = getUserFromLocalStorage();
+		console.log({ userStoragedData });
+		if (userStoragedData?.token) {
+			setLoggedUser(userStoragedData);
+		} else {
+			history.push("/");
+		}
+	}, []);
+
 	function submitIncome(event) {
 		event.preventDefault();
-		console.log(income);
 		API.addIncome(income, { token: loggedUser.token })
 			.then((resp) => {
 				setIncome({

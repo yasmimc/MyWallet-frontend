@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import UserContext from "../../contexts/userContext";
 import { Form, Input } from "../_shared/Forms";
@@ -10,13 +10,28 @@ import API from "../../API/requests";
 export default function Outgo() {
 	const history = useHistory();
 
-	const { loggedUser } = useContext(UserContext);
+	const { loggedUser, setLoggedUser } = useContext(UserContext);
 	const [outgo, setOutgo] = useState({
 		userId: loggedUser.user?.id,
 		type: 2,
 		value: "",
 		description: "",
 	});
+
+	function getUserFromLocalStorage() {
+		const storagedUser = localStorage.getItem("myWalletUser");
+		if (storagedUser) return JSON.parse(storagedUser);
+	}
+
+	useEffect(() => {
+		const userStoragedData = getUserFromLocalStorage();
+		console.log({ userStoragedData });
+		if (userStoragedData?.token) {
+			setLoggedUser(userStoragedData);
+		} else {
+			history.push("/");
+		}
+	}, []);
 
 	function submitOutgo(event) {
 		event.preventDefault();

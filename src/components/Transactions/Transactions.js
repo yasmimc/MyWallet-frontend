@@ -20,13 +20,14 @@ export default function Transactions() {
 	const [total, setTotal] = useState(0);
 
 	function getUserFromLocalStorage() {
-		return JSON.parse(localStorage.getItem("myWalletUser"));
+		const storagedUser = localStorage.getItem("myWalletUser");
+		if (storagedUser) return JSON.parse(storagedUser);
 	}
 
 	useEffect(() => {
 		const userStoragedData = getUserFromLocalStorage();
-		console.log(userStoragedData);
-		if (userStoragedData) {
+		console.log({ userStoragedData });
+		if (userStoragedData?.token) {
 			setLoggedUser(userStoragedData);
 		} else {
 			history.push("/");
