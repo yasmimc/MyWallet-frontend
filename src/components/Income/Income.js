@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useHistory } from "react-router";
 import UserContext from "../../contexts/userContext";
 import { Form, Input } from "../_shared/Forms";
 import { PageContainer } from "../_shared/PageContainer";
@@ -8,6 +8,8 @@ import MoneyInput from "../_shared/MoneyInput";
 import API from "../../API/requests";
 
 export default function Income() {
+	const history = useHistory();
+
 	const { loggedUser } = useContext(UserContext);
 	const [income, setIncome] = useState({
 		userId: loggedUser.user?.id,
@@ -26,6 +28,7 @@ export default function Income() {
 					value: "",
 					description: "",
 				});
+				history.push("/transactions");
 			})
 			.catch((error) => {
 				console.log(error.response);

@@ -23,7 +23,7 @@ export default function SignIn() {
 
 		API.signIn({ email, password })
 			.then((resp) => {
-				console.log(resp.data);
+				// console.log(resp.data);
 				const { user, token } = resp.data;
 				setLoggedUser({
 					token,

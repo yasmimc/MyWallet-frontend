@@ -7,11 +7,29 @@ import {
 	RiAddCircleLine,
 	RiIndeterminateCircleLine,
 } from "react-icons/ri";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import UserContext from "../../contexts/userContext";
+import API from "../../API/requests";
 
 export default function Transactions() {
 	const { loggedUser } = useContext(UserContext);
+
+	const [transactions, setTransactions] = useState([]);
+	const [total, setTotal] = useState(0);
+
+	useEffect(() => {
+		API.getTransictions(loggedUser.token)
+			.then((resp) => {
+				console.log(resp.data);
+				setTransactions([...resp.data]);
+				setTotal(
+					[...resp.data].reduce((acc, curr) => acc + curr.value, 0) / 100
+				);
+			})
+			.catch((error) => {
+				console.log(error.response);
+			});
+	}, []);
 
 	return (
 		<PageContainer>
@@ -20,7 +38,42 @@ export default function Transactions() {
 				<LogoutButton />
 			</Header>
 			<Container>
-				<TransactionsHistory></TransactionsHistory>
+				<TransactionsHistory>
+					<TransactionsContainer>
+						{transactions.length > 0 ? (
+							<>
+								{transactions.map((transaction) => (
+									<Transaction>
+										<div>
+											<p className="date">
+												{`${new Date(transaction.date).getDate()}/${new Date(
+													transaction.date
+												).getMonth()}`}
+												`
+											</p>
+											<p className="description">{transaction.description}</p>
+										</div>
+										<p className={`${transaction.type} value`}>
+											{Math.abs(transaction.value / 100)
+												.toFixed(2)
+												.replace(".", ",")}
+										</p>
+									</Transaction>
+								))}
+								<Transaction>
+									<Total>SALDO </Total>
+									<p className={total < 0 ? "outgo" : "income"}>
+										{Math.abs(total).toFixed(2).replace(".", ",")}
+									</p>
+								</Transaction>
+							</>
+						) : (
+							<EmptyHistory>
+								<p>Não há registros de entrada ou saída</p>
+							</EmptyHistory>
+						)}
+					</TransactionsContainer>
+				</TransactionsHistory>
 				<TransactionActions>
 					<Link to="/income">
 						<button>
@@ -62,6 +115,49 @@ const TransactionsHistory = styled.div`
 	height: calc(100vh - 220px);
 	background: #ffffff;
 	border-radius: 5px;
+	font-size: 16px;
+	display: flex;
+	flex-direction: column;
+	overflow-y: scroll;
+	overflow-x: hidden;
+`;
+
+const TransactionsContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	position: relative;
+`;
+
+const Transaction = styled.div`
+	display: flex;
+	justify-content: space-between;
+
+	p {
+		padding: 10px;
+	}
+
+	div {
+		display: flex;
+	}
+
+	.income {
+		color: green;
+	}
+
+	.outgo {
+		color: red;
+	}
+
+	.date {
+		color: #c6c6c6;
+	}
+
+	.description {
+		overflow-x: hidden;
+		text-overflow: ellipsis;
+		width: 190px;
+	}
 `;
 
 const TransactionActions = styled.div`
@@ -90,6 +186,25 @@ const TransactionActions = styled.div`
 			font-size: 22px;
 		}
 	}
+`;
+
+const EmptyHistory = styled.div`
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #868686;
+	font-size: 20px;
+
+	p {
+		width: 60%;
+		text-align: center;
+	}
+`;
+
+const Total = styled.p`
+	font-weight: 700;
 `;
 
 const IncomeIcon = styled(RiAddCircleLine)``;

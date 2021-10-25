@@ -5,6 +5,7 @@ const API = {
 	signIn,
 	addIncome,
 	addOutgo,
+	getTransictions,
 };
 
 function createBearerAuthorization(token) {
@@ -28,6 +29,12 @@ function signIn({ name, email, password }) {
 		email,
 		password,
 	});
+}
+
+function getTransictions(token) {
+	console.log({ token, msg: "fez request" });
+	const config = createBearerAuthorization(token);
+	return axiosBase.get("/transactions", config);
 }
 
 function addIncome(income, { token }) {
