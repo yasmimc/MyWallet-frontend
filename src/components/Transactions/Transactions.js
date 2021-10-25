@@ -16,7 +16,7 @@ export default function Transactions() {
 	return (
 		<PageContainer>
 			<Header>
-				<PageTitle>Olá, {loggedUser.name}</PageTitle>
+				<PageTitle>Olá, {loggedUser.user?.name}</PageTitle>
 				<LogoutButton />
 			</Header>
 			<Container>

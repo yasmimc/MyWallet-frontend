@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import CurrencyInput from "react-currency-masked-input";
 
 const Form = styled.form`
 	display: flex;
@@ -37,6 +38,8 @@ const Input = styled.input`
 	}
 `;
 
+const MoneyInput = styled(CurrencyInput)``;
+
 const SignForm = styled(Form)`
 	height: 100vh;
 	justify-content: center;
@@ -69,4 +72,4 @@ const InputErrorMsg = styled.div`
 	}
 `;
 
-export { Form, SignForm, Input, InputErrorMsg };
+export { Form, SignForm, Input, InputErrorMsg, MoneyInput };

@@ -32,9 +32,11 @@ export default function SignIn() {
 				history.push("/transactions");
 			})
 			.catch((err) => {
-				console.log(`${err.response.status} - ${err.response.statusText}`);
-				setLoginError(true);
-				return;
+				if (err.response) {
+					console.log(`${err.response.status} - ${err.response.statusText}`);
+					setLoginError(true);
+					return;
+				}
 			});
 	}
 
