@@ -42,6 +42,9 @@ export default function SignUp() {
 	const emailRegex =
 		/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
+	const strongPassWordRegex =
+		/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
 	return (
 		<SignForm onSubmit={submitForm}>
 			<Logo />
@@ -95,7 +98,7 @@ export default function SignUp() {
 					setInputError({
 						...inputError,
 						passwordMatch: event.target.value !== input.passwordConfirmation,
-						password: event.target.value.length < 6,
+						password: !event.target.value.match(strongPassWordRegex),
 					});
 				}}
 				inputError={!!inputError.password}
@@ -103,7 +106,10 @@ export default function SignUp() {
 			{inputError.password ? (
 				<InputErrorMsg>
 					<WarningIcon />
-					<p> A senha deve ter no mínimo 6 caracteres</p>
+					<p>
+						A senha deve ter no mínimo 8 caracteres, contendo letra maíuscula e
+						mínuscula, número e caracter especial
+					</p>
 				</InputErrorMsg>
 			) : null}
 			<Input

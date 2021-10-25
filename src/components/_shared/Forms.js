@@ -65,6 +65,7 @@ const InputErrorMsg = styled.div`
 		display: flex;
 		align-items: center;
 		padding-left: 5px;
+		width: 400px;
 	}
 
 	svg {
