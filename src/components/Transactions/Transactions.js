@@ -59,44 +59,42 @@ export default function Transactions() {
 				<LogoutButton onClick={logout} />
 			</Header>
 			<Container>
-				{transactions.length > 0 ? (
-					<TransactionsHistory>
-						{
-							<TransactionsContainer>
-								<div>
-									{transactions.map((transaction) => (
-										<Transaction>
-											<div>
-												<p className="date">
-													{`${new Date(transaction.date).getDate()}/${new Date(
-														transaction.date
-													).getMonth()}`}
-												</p>
-												<p className="description">{transaction.description}</p>
-											</div>
-											<p className={`${transaction.type} value`}>
-												{Math.abs(transaction.value / 100)
-													.toFixed(2)
-													.replace(".", ",")}
+				<TransactionsHistory>
+					{transactions.length > 0 ? (
+						<TransactionsContainer>
+							<div>
+								{transactions.map((transaction) => (
+									<Transaction>
+										<div>
+											<p className="date">
+												{`${new Date(transaction.date).getDate()}/${new Date(
+													transaction.date
+												).getMonth()}`}
 											</p>
-										</Transaction>
-									))}
-								</div>
+											<p className="description">{transaction.description}</p>
+										</div>
+										<p className={`${transaction.type} value`}>
+											{Math.abs(transaction.value / 100)
+												.toFixed(2)
+												.replace(".", ",")}
+										</p>
+									</Transaction>
+								))}
+							</div>
 
-								<Transaction>
-									<Total>SALDO </Total>
-									<p className={total < 0 ? "outgo" : "income"}>
-										{Math.abs(total).toFixed(2).replace(".", ",")}
-									</p>
-								</Transaction>
-							</TransactionsContainer>
-						}
-					</TransactionsHistory>
-				) : (
-					<EmptyHistory>
-						<p>Não há registros de entrada ou saída</p>
-					</EmptyHistory>
-				)}
+							<Transaction>
+								<Total>SALDO </Total>
+								<p className={total < 0 ? "outgo" : "income"}>
+									{Math.abs(total).toFixed(2).replace(".", ",")}
+								</p>
+							</Transaction>
+						</TransactionsContainer>
+					) : (
+						<EmptyHistory>
+							<p>Não há registros de entrada ou saída</p>
+						</EmptyHistory>
+					)}
+				</TransactionsHistory>
 				<TransactionActions>
 					<Link to="/income">
 						<button>
