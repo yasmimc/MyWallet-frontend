@@ -4,6 +4,7 @@ import Logo from "../_shared/Logo";
 import WarningIcon from "../_shared/WarningIcon";
 import { useState } from "react";
 import API from "../../API/requests";
+import { emailRegex, strongPassWordRegex } from "./regex";
 
 export default function SignUp() {
 	const history = useHistory();
@@ -38,12 +39,6 @@ export default function SignUp() {
 				});
 		}
 	}
-
-	const emailRegex =
-		/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-
-	const strongPassWordRegex =
-		/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 	return (
 		<SignForm onSubmit={submitForm}>
