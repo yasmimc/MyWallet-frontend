@@ -34,8 +34,11 @@ export default function SignUp() {
 					history.push("/");
 				})
 				.catch((err) => {
-					console.log(`${err.response.status} - ${err.response.statusText}`);
-					return;
+					if (err.response) {
+						console.log(`${err.response.status} - ${err.response.statusText}`);
+						return;
+					}
+					console.log(err.message);
 				});
 		}
 	}
