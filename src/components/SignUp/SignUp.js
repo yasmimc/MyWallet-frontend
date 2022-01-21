@@ -104,7 +104,7 @@ export default function SignUp() {
 			{inputError.password ? (
 				<InputErrorMsg>
 					<WarningIcon />
-					<p>Escolha uma senha mais forte</p>
+					<p>Sua senha deve ter no mínimo 8 caracteres, contendo letra maiúscula, minúscula, número e caractere especial)</p>
 				</InputErrorMsg>
 			) : null}
 			<Input
