@@ -1,6 +1,6 @@
 # MyWallet Frontend
 
-This is a financial control application, where you can register your incomes and outgoings. You can see the backend project [here](https://github.com/yasmimc/mywallet-backend).
+This is a financial control application, where you can register your incomes and outgoings. 
 
 <p align="center" >
 <img src="public/my-wallet.gif" width="300" />
@@ -30,3 +30,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
+
+## Backend API
+You can see the backend project [here](https://github.com/yasmimc/mywallet-backend).
