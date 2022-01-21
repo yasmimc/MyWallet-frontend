@@ -1,6 +1,6 @@
 # MyWallet Frontend
 
-This is a financial control application, where you can register your income and outgoings:
+This is a financial control application, where you can register your incomes and outgoings. You can see the backend project [here](https://github.com/yasmimc/mywallet-backend).
 
 <p align="center" >
 <img src="public/my-wallet.gif" width="300" />
@@ -10,7 +10,6 @@ This is a financial control application, where you can register your income and 
 
 ReactJs</br>
 Axios</br>
-Cypress</br>
 
 ## See the result here
 
